@@ -28,7 +28,7 @@ if (isset($_POST["txtUsuario"]) && isset($_POST["txtClave"])) {
                 <h1>Formulario</h1>
                 <?php if ($error): ?>
                     <div class="alert alert-danger mt-3" role="alert">
-                        Solo válido para usuarios registrados
+                        <?php echo $error; ?>
                     </div>
                 <?php endif; ?>
             </div>

@@ -12,16 +12,16 @@ $bIngresoIVA = false;
 $error = "";
 
 if ($_POST) {
-    $iva = $_POST['lstIVA'];
-    if ($_POST['txtPrecioBase'] != "" && $_POST['txtPrecioIVA'] == "") {
-        $precioBase = $_POST['txtPrecioBase'];
+    $iva = $_POST["lstIVA"];
+    if ($_POST["txtPrecioBase"] != "" && $_POST["txtPrecioIVA"] == "") {
+        $precioBase = $_POST["txtPrecioBase"];
         $precioIVA = $precioBase * ($iva / 100 + 1);
-    } elseif ($_POST['txtPrecioBase'] == "" && $_POST['txtPrecioIVA'] != "") {
-        $precioIVA = $_POST['txtPrecioIVA'];
+    } elseif ($_POST["txtPrecioBase"] == "" && $_POST["txtPrecioIVA"] != "") {
+        $precioIVA = $_POST["txtPrecioIVA"];
         $precioBase = $precioIVA / ($iva / 100 + 1);
         $bIngresoIVA = true;
     } else {
-        $error = $_POST['txtPrecioBase'] == "" ? "Ingrese un importe." : "Ingrese sólo uno de los importes.";
+        $error = $_POST["txtPrecioBase"] == "" ? "Ingrese un importe." : "Ingrese sólo uno de los importes.";
     }
     $ivaCantidad = $precioIVA - $precioBase;
 }

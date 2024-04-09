@@ -1,7 +1,7 @@
 <?php
 
 function maximo($aNumeros) {
-    $max = 0;
+    $max = count($aNumeros) > 0 ? $aNumeros[0] : "";
     foreach ($aNumeros as $num) {
         if ($num > $max) {
             $max = $num;

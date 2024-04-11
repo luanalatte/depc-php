@@ -55,18 +55,17 @@ $notasPorAlumno = 2;
             </thead>
             <tbody>
                 <?php foreach ($aAlumnos as $id => $alumno):
-                    $aNotas = $alumno["aNotas"];
-                    $promedio = promediar($aNotas);
+                    $promedio = promediar($alumno["aNotas"]);
                     $sumClase += $promedio;
-                    $ultimaNota = array_pop($aNotas);
+                    $ultimaNota = array_pop($alumno["aNotas"]);
                 ?>
                 <tr>
                     <th scope="row"><?php echo $id + 1; ?></th>
                     <td><?php echo $alumno["nombre"]; ?></td>
-                    <?php foreach ($aNotas as $nota): ?>
+                    <?php foreach ($alumno["aNotas"] as $nota): ?>
                     <td><?php echo $nota; ?></td>
                     <?php endforeach; ?>
-                    <td colspan="<?php echo $notasPorAlumno - count($aNotas); ?>"><?php echo $ultimaNota; ?></td>
+                    <td colspan="<?php echo $notasPorAlumno - count($alumno["aNotas"]); ?>"><?php echo $ultimaNota; ?></td>
                     <td><?php echo number_format($promedio, 2, ","); ?></td>
                 </tr>
                 <?php endforeach; ?>

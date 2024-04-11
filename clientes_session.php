@@ -12,19 +12,34 @@ session_start();
 $aClientes = $_SESSION["aClientes"] ?? [];
 
 if ($_POST) {
-    $nombre = $_POST["txtNombre"];
-    $dni = $_POST["txtDNI"];
-    $telefono = $_POST["txtTelefono"];
-    $edad = $_POST["txtEdad"];
+    if(isset($_POST["btnDelete"])) {
+        session_destroy();
+        $aClientes = [];
+    } else {
+        $nombre = $_POST["txtNombre"];
+        $dni = $_POST["txtDNI"];
+        $telefono = $_POST["txtTelefono"];
+        $edad = $_POST["txtEdad"];
 
-    $aClientes[] = [
-        "nombre" => $nombre,
-        "dni" => $dni,
-        "telefono" => $telefono,
-        "edad" => $edad
-    ];
+        $aClientes[] = [
+            "nombre" => $nombre,
+            "dni" => $dni,
+            "telefono" => $telefono,
+            "edad" => $edad
+        ];
 
-    $_SESSION["aClientes"] = $aClientes;
+        $_SESSION["aClientes"] = $aClientes;
+    }
+}
+
+if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {
+    unset($aClientes[$_GET["pos"]]);
+
+    if (isset($_SESSION["aClientes"])) {
+        $_SESSION["aClientes"] = $aClientes;
+    }
+
+    header("Location: clientes_session.php");
 }
 
 ?>
@@ -44,10 +59,10 @@ if ($_POST) {
                 <h1>Tabla de clientes</h1>
             </div>
             <div class="col-md-4">
-                <form action="" method="post" class="form">
+                <form action="" method="post" class="form d-inline">
                     <div class="mb-3">
                         <label class="form-label" for="txtNombre">Nombre:</label>
-                        <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Ingrese el nombre y apellido">
+                        <input type="text" name="txtNombre" id="txtNombre" class="form-control" placeholder="Ingrese el nombre y apellido" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="txtDNI">DNI:</label>
@@ -61,7 +76,10 @@ if ($_POST) {
                         <label class="form-label" for="txtEdad">Edad:</label>
                         <input type="number" name="txtEdad" id="txtEdad" class="form-control" placeholder="99">
                     </div>
-                    <input type="submit" value="Enviar" class="btn btn-primary">
+                    <input type="submit" name="btnSend" value="Enviar" class="btn btn-primary">
+                </form>
+                <form action="" method="post" class="d-inline">
+                    <input type="submit" name="btnDelete" value="Eliminar todo" class="btn btn-danger">
                 </form>
             </div>
             <div class="col-md-8">
@@ -72,15 +90,19 @@ if ($_POST) {
                             <th scope="col" class="border">DNI</th>
                             <th scope="col" class="border">Teléfono</th>
                             <th scope="col" class="border">Edad</th>
+                            <th scope="col" class="border">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($aClientes as $cliente): ?>
+                        <?php foreach($aClientes as $id => $cliente): ?>
                         <tr>
                             <td class="border"><?php echo $cliente["nombre"]; ?></td>
                             <td class="border"><?php echo $cliente["dni"]; ?></td>
                             <td class="border"><?php echo $cliente["telefono"]; ?></td>
                             <td class="border"><?php echo $cliente["edad"]; ?></td>
+                            <td class="border">
+                                <a href="?pos=<?php echo $id; ?>">Eliminar</a>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

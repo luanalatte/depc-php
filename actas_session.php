@@ -15,23 +15,18 @@ session_start();
 $aAlumnos = $_SESSION["aAlumnos"] ?? [];
 
 if ($_POST) {
-    if(isset($_POST["btnDelete"])) {
-        session_destroy();
-        $aClientes = [];
-    } else {
-        $nombre = $_POST["txtNombre"];
-        $aNotas = [];
-        for ($i=1; $i <= $notasPorAlumno; $i++) {
-            $aNotas[] = (int)$_POST["txtNota".$i];
-        }
-
-        $aAlumnos[] = [
-            "nombre" => $nombre,
-            "aNotas" => $aNotas
-        ];
-
-        $_SESSION["aAlumnos"] = $aAlumnos;
+    $nombre = $_POST["txtNombre"];
+    $aNotas = [];
+    for ($i=1; $i <= $notasPorAlumno; $i++) {
+        $aNotas[] = (int)$_POST["txtNota".$i];
     }
+
+    $aAlumnos[] = [
+        "nombre" => $nombre,
+        "aNotas" => $aNotas
+    ];
+
+    $_SESSION["aAlumnos"] = $aAlumnos;
 }
 
 if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {

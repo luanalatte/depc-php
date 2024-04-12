@@ -15,18 +15,26 @@ session_start();
 $aAlumnos = $_SESSION["aAlumnos"] ?? [];
 
 if ($_POST) {
-    $nombre = $_POST["txtNombre"];
-    $aNotas = [];
-    for ($i=1; $i <= $notasPorAlumno; $i++) {
-        $aNotas[] = (int)$_POST["txtNota".$i];
+    if(isset($_POST["btnDelete"])) {
+        unset($aAlumnos[$_POST["pos"]]);
+
+        if (isset($_SESSION["aAlumnos"])) {
+            $_SESSION["aAlumnos"] = $aAlumnos;
+        }
+    } else {
+        $nombre = $_POST["txtNombre"];
+        $aNotas = [];
+        for ($i=1; $i <= $notasPorAlumno; $i++) {
+            $aNotas[] = (int)$_POST["txtNota".$i];
+        }
+
+        $aAlumnos[] = [
+            "nombre" => $nombre,
+            "aNotas" => $aNotas
+        ];
+
+        $_SESSION["aAlumnos"] = $aAlumnos;
     }
-
-    $aAlumnos[] = [
-        "nombre" => $nombre,
-        "aNotas" => $aNotas
-    ];
-
-    $_SESSION["aAlumnos"] = $aAlumnos;
 }
 
 if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {
@@ -80,7 +88,12 @@ $sumClase = 0;
                     <?php endforeach; ?>
                     <td colspan="<?php echo $notasPorAlumno - count($alumno["aNotas"]); ?>"><?php echo $ultimaNota; ?></td>
                     <td><?php echo number_format($promedio, 2, ","); ?></td>
-                    <td><a href="?pos=<?php echo $id; ?>">Eliminar</a></td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="hidden" name="pos" value="<?php echo $id; ?>">
+                            <input type="submit" name="btnDelete" value="Eliminar" class="btn btn-link">
+                        </form>
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

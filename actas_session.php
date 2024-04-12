@@ -37,15 +37,15 @@ if ($_POST) {
     }
 }
 
-if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {
-    unset($aAlumnos[$_GET["pos"]]);
+// if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {
+//     unset($aAlumnos[$_GET["pos"]]);
 
-    if (isset($_SESSION["aAlumnos"])) {
-        $_SESSION["aAlumnos"] = $aAlumnos;
-    }
+//     if (isset($_SESSION["aAlumnos"])) {
+//         $_SESSION["aAlumnos"] = $aAlumnos;
+//     }
 
-    header("Location: actas_session.php");
-}
+//     header("Location: actas_session.php");
+// }
 
 $sumClase = 0;
 

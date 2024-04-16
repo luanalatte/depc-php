@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function promediar($aNumeros) {
     $total = 0;
@@ -10,42 +11,28 @@ function promediar($aNumeros) {
 
 $notasPorAlumno = 3;
 
-session_start();
-
 $aAlumnos = $_SESSION["aAlumnos"] ?? [];
 
 if ($_POST) {
     if(isset($_POST["btnDelete"])) {
-        unset($aAlumnos[$_POST["pos"]]);
-
-        if (isset($_SESSION["aAlumnos"])) {
-            $_SESSION["aAlumnos"] = $aAlumnos;
+        if ($_POST["pos"] >= 0) {
+            unset($aAlumnos[$_POST["pos"]]);
         }
     } else {
         $nombre = $_POST["txtNombre"];
         $aNotas = [];
         for ($i=1; $i <= $notasPorAlumno; $i++) {
-            $aNotas[] = (int)$_POST["txtNota".$i];
+            $aNotas[] = (float)$_POST["txtNota".$i];
         }
 
         $aAlumnos[] = [
             "nombre" => $nombre,
             "aNotas" => $aNotas
         ];
-
-        $_SESSION["aAlumnos"] = $aAlumnos;
     }
+
+    $_SESSION["aAlumnos"] = $aAlumnos;
 }
-
-// if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {
-//     unset($aAlumnos[$_GET["pos"]]);
-
-//     if (isset($_SESSION["aAlumnos"])) {
-//         $_SESSION["aAlumnos"] = $aAlumnos;
-//     }
-
-//     header("Location: actas_session.php");
-// }
 
 $sumClase = 0;
 

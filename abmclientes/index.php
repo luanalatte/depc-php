@@ -28,21 +28,44 @@ if ($_POST) {
     } else {
         if (isset($_POST["btnEliminar"])) {
             if ($pos >= 0) {
+                if (file_exists("imagenes/" . $aClientes[$pos]["imagen"])) {
+                    unlink("imagenes/" . $aClientes[$pos]["imagen"]);
+                }
                 unset($aClientes[$pos]);
             }
+            header("Location: index.php");
         } else {
             $dni = trim($_POST["txtDNI"] ?? "");
             $nombre = trim($_POST["txtNombre"] ?? "");
             $telefono = trim($_POST["txtTelefono"] ?? "");
             $correo = trim($_POST["txtCorreo"] ?? "");
-    
+            $imagen = "";
+
+            if (isset($_FILES["file1"]) && $_FILES["file1"]["error"] === UPLOAD_ERR_OK) {
+                $nombreAleatorio = date("Ymdhmsi"). rand(1000, 2000); //202404180659371010
+                $tmpFile = $_FILES["file1"]["tmp_name"];
+                $extension = strtolower(pathinfo($_FILES["file1"]["name"], PATHINFO_EXTENSION));
+                if($extension == "jpg" || $extension == "jpeg" || $extension == "png") {
+                    $imagen = "$nombreAleatorio.$extension";
+                    move_uploaded_file($tmpFile, "imagenes/$imagen");
+
+                    if ($pos >= 0) {
+                        //Eliminar anterior
+                        if (file_exists("imagenes/" . $aClientes[$pos]["imagen"])) {
+                            unlink("imagenes/" . $aClientes[$pos]["imagen"]);
+                        }
+                    }
+                }
+            }
+
             if ($pos >= 0) {
                 //Actualizar
                 $aClientes[$pos] = [
                     "dni" => $dni,
                     "nombre" => $nombre,
                     "telefono" => $telefono,
-                    "correo" => $correo
+                    "correo" => $correo,
+                    "imagen" => $imagen == "" ? $aClientes[$pos]["imagen"] : $imagen
                 ];
             } else {
                 //Insertar
@@ -50,7 +73,8 @@ if ($_POST) {
                     "dni" => $dni,
                     "nombre" => $nombre,
                     "telefono" => $telefono,
-                    "correo" => $correo
+                    "correo" => $correo,
+                    "imagen" => $imagen
                 ];
             }
         }
@@ -124,7 +148,9 @@ if ($_POST) {
                 <tbody>
                     <?php foreach($aClientes as $id => $cliente): ?>
                     <tr>
-                        <td></td>
+                        <td>
+                            <img class="img-fluid" src="imagenes/<?php echo $cliente["imagen"]; ?>" alt="imagen">
+                        </td>
                         <td><?php echo $cliente["dni"]; ?></td>
                         <td><?php echo $cliente["nombre"]; ?></td>
                         <td><?php echo $cliente["telefono"]; ?></td>

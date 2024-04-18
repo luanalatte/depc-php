@@ -69,7 +69,7 @@ if ($_POST) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Clientes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
+    <script src="https://kit.fontawesome.com/6d7e9baaed.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="container">
@@ -78,7 +78,7 @@ if ($_POST) {
             <h1>Registro de clientes</h1>
         </div>
         <div class="col-4">
-            <form action="" method="post" class="form">
+            <form action="" method="post" class="form" enctype="multipart/form-data">
                 <input type="hidden" name="pos" value="<?php echo $pos; ?>">
                 <div class="mb-1">
                     <label for="txtDNI">DNI: *</label>
@@ -98,7 +98,7 @@ if ($_POST) {
                 </div>
                 <div class="mb-1">
                     <label for="file1">Archivo adjunto</label>
-                    <input type="file" name="file1" id="file1">
+                    <input type="file" name="file1" id="file1" accept=".png, .jpeg, .png">
                     <p><small>Archivos admiditos: .jpg, .jpeg, .png</small></p>
                 </div>
                 <?php if($pos >= 0): ?>

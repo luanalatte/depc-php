@@ -1,3 +1,4 @@
 datos.txt
 abmclientes/imagenes/
-abmclientes/archivo.json
+abmclientes/*.json
+gestor_tareas/*.json

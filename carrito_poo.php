@@ -1,5 +1,7 @@
 <?php 
 
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+
 class Cliente {
     public $dni;
     public $nombre;
@@ -59,8 +61,27 @@ class Carrito {
         $this->total = 0;
     }
 
-    public function cargarProducto() {}
-    public function imprimirTicket() {}
+    public function cargarProducto($producto) {
+        $this->aProductos[] = $producto;
+        $this->subtotal += $producto->precio;
+        $this->total += $producto->calcularPrecioConIva();
+    }
+
+    public function calcularTotalConDescuento() {
+        return $this->total * (1 - $this->cliente->descuento);
+    }
+
+    public function imprimirTicket() {
+        echo "<tr><th scope=\"row\">Fecha</th><td>" . date("d/m/Y H:i:s") . "</td></tr>";
+        echo "<tr><th scope=\"row\">DNI</th><td>" . $this->cliente->dni . "</td></tr>";
+        echo "<tr><th scope=\"row\">Nombre</th><td>" . $this->cliente->nombre . "</td></tr>";
+        echo "<tr><th scope=\"col\" colspan=\"2\">Productos:</th></tr>";
+        foreach ($this->aProductos as $prod) {
+            echo "<tr><td>" . $prod->nombre . "</td><td>$" . number_format($prod->precio, 2, ",", ".") . "</td></tr>";
+        }
+        echo "<tr><th scope=\"row\">Subtotal s/IVA:</th><td>$" . number_format($this->subtotal, 2, ",", ".") . "</td></tr>";
+        echo "<tr><th scope=\"row\">TOTAL:</th><td>$" . number_format($this->calcularTotalConDescuento(), 2, ",", ".") . "</td></tr>";
+    }
 }
 
 //Programa
@@ -90,8 +111,36 @@ $carrito->cliente = $cliente1;
 $carrito->cargarProducto($producto1);
 $carrito->cargarProducto($producto2);
 
-$cliente1->imprimir();
-$producto1->imprimir();
-$producto2->imprimir();
+// $cliente1->imprimir();
+// $producto1->imprimir();
+// $producto2->imprimir();
 
-$carrito->imprimirTicket();
+// print_r($carrito);
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
+</head>
+<body>
+    <main class="container mt-3">
+        <div class="row">
+            <div class="col-md-5">
+                <table class="table border">
+                    <thead>
+                        <th scope="col" colspan="2" class="text-center">ECO MARKET</th>
+                    </thead>
+                    <tbody>
+                        <?php $carrito->imprimirTicket(); ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

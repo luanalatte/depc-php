@@ -104,15 +104,37 @@ class Carrito {
     }
 
     public function imprimirTicket() {
-        echo "<tr><th scope=\"row\">Fecha</th><td>" . date("d/m/Y H:i:s") . "</td></tr>";
-        echo "<tr><th scope=\"row\">DNI</th><td>" . $this->cliente->getDNI() . "</td></tr>";
-        echo "<tr><th scope=\"row\">Nombre</th><td>" . $this->cliente->getNombre() . "</td></tr>";
-        echo "<tr><th scope=\"col\" colspan=\"2\">Productos:</th></tr>";
-        foreach ($this->aProductos as $prod) {
-            echo "<tr><td>" . $prod->getNombre() . "</td><td>$" . number_format($prod->getPrecio(), 2, ",", ".") . "</td></tr>";
-        }
-        echo "<tr><th scope=\"row\">Subtotal s/IVA:</th><td>$" . number_format($this->subtotal, 2, ",", ".") . "</td></tr>";
-        echo "<tr><th scope=\"row\">TOTAL:</th><td>$" . number_format($this->calcularTotalConDescuento(), 2, ",", ".") . "</td></tr>";
+    ?>
+        <tr>
+            <th scope="row">Fecha</th>
+            <td><?php date("d/m/Y H:i:s") ?></td>
+        </tr>
+        <tr>
+            <th scope="row">DNI</th>
+            <td><?= $this->cliente->getDNI() ?></td>
+        </tr>
+        <tr>
+            <th scope="row">Nombre</th>
+            <td><?= $this->cliente->getNombre() ?></td>
+        </tr>
+        <tr>
+            <th scope="col" colspan="2">Productos:</th>
+        </tr>
+        <?php foreach ($this->aProductos as $prod): ?>
+        <tr>
+            <td><?= $prod->getNombre() ?></td>
+            <td>$<?= number_format($prod->getPrecio(), 2, ",", ".") ?></td>
+        </tr>
+        <?php endforeach; ?>
+        <tr>
+            <th scope="row">Subtotal s/IVA:</th>
+            <td>$<?= number_format($this->subtotal, 2, ",", ".") ?></td>
+        </tr>
+        <tr>
+            <th scope="row">TOTAL:</th>
+            <td>$<?= number_format($this->calcularTotalConDescuento(), 2, ",", ".") ?></td>
+        </tr>
+    <?php
     }
 }
 

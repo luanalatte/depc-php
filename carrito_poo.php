@@ -107,7 +107,7 @@ class Carrito {
     ?>
         <tr>
             <th scope="row">Fecha</th>
-            <td><?php date("d/m/Y H:i:s") ?></td>
+            <td><?= date("d/m/Y H:i:s") ?></td>
         </tr>
         <tr>
             <th scope="row">DNI</th>

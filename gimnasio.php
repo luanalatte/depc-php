@@ -83,15 +83,39 @@ class Clase {
         $this->aAlumnos[] = $alumno;
     }
 
-    public function imprimirListado() {
-        foreach ($this->aAlumnos as $alumno): ?>
-            <tr>
-                <td><?= $alumno->dni ?></td>
-                <td><?= $alumno->nombre ?></td>
-                <td><?= $alumno->correo ?></td>
-                <td><?= $alumno->celular ?></td>
-            </tr>
-        <?php endforeach;
+    public function imprimirListado() { 
+    ?>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th scope="col" colspan="4">Clase: <?= $this->nombre; ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" colspan="2">Entrenador:</th>
+                    <td colspan="2"><?= $this->entrenador->nombre; ?></td>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="4">Alumnos Inscritos:</th>
+                </tr>
+                <tr>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Celular</th>
+                </tr>
+                <?php foreach ($this->aAlumnos as $alumno): ?>
+                <tr>
+                    <td><?= $alumno->dni ?></td>
+                    <td><?= $alumno->nombre ?></td>
+                    <td><?= $alumno->correo ?></td>
+                    <td><?= $alumno->celular ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php
     }
 
     public function __get(string $propiedad) { return $this->$propiedad; }
@@ -148,54 +172,10 @@ $clase2->inscribirAlumno($alumno3);
                 <h1>Gimnasio</h1>
             </div>
             <div class="col-12 mt-5">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark text-center">
-                        <tr>
-                            <th scope="col" colspan="4">Clase: <?= $clase1->nombre; ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row" colspan="2">Entrenador:</th>
-                            <td colspan="2"><?= $clase1->entrenador->nombre; ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="col" colspan="4">Alumnos Inscritos:</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">DNI</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Celular</th>
-                        </tr>
-                        <?php $clase1->imprimirListado(); ?>
-                    </tbody>
-                </table>
+                <?php $clase1->imprimirListado(); ?>
             </div>
             <div class="col-12 mt-5">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark text-center">
-                        <tr>
-                            <th scope="col" colspan="4">Clase: <?= $clase2->nombre; ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row" colspan="2">Entrenador:</th>
-                            <td colspan="2"><?= $clase2->entrenador->nombre; ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" colspan="4">Alumnos Inscritos:</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">DNI</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Celular</th>
-                        </tr>
-                        <?php $clase2->imprimirListado(); ?>
-                    </tbody>
-                </table>
+                <?php $clase2->imprimirListado(); ?>
             </div>
         </div>
     </main>

@@ -160,7 +160,7 @@ $clase2->inscribirAlumno($alumno3);
                             <td colspan="2"><?= $clase1->entrenador->nombre; ?></td>
                         </tr>
                         <tr>
-                            <th scope="row" colspan="4">Alumnos Inscritos:</th>
+                            <th scope="col" colspan="4">Alumnos Inscritos:</th>
                         </tr>
                         <tr>
                             <th scope="col">DNI</th>

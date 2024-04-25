@@ -1,12 +1,26 @@
 <?php
 
 class Persona {
-    public $documento;
-    public $nombre;
-    public $edad;
-    public $nacionalidad;
+    protected $documento;
+    protected $nombre;
+    protected $edad;
+    protected $nacionalidad;
 
-    public function __construct() {}
+    public function getDocumento() { return $this->documento; }
+    public function setDocumento($valor) { $this->documento = $valor; }
+
+    public function getNombre() { return $this->nombre; }
+    public function setNombre($valor) { $this->nombre = $valor; }
+
+    public function getEdad() { return $this->edad; }
+    public function setEdad($valor) { $this->edad = $valor; }
+
+    public function getNacionalidad() { return $this->nacionalidad; }
+    public function setNacionalidad($valor) { $this->nacionalidad = $valor; }
+
+    public function __construct($nombre) {
+        $this->nombre = $nombre;
+    }
 
     public function imprimir() {
         echo "Documento: " . $this->documento . "<br>";
@@ -18,12 +32,16 @@ class Persona {
 }
 
 class Alumno extends Persona {
-    public $legajo;
-    public $notaPortfolio;
-    public $notaPHP;
-    public $notaProyecto;
+    private $legajo;
+    private $notaPortfolio;
+    private $notaPHP;
+    private $notaProyecto;
 
-    public function __construct() {
+    public function getLegajo() { return $this->legajo; }
+    public function setLegajo($valor) { $this->legajo = $valor; }
+
+    public function __construct($nombre) {
+        $this->nombre = $nombre;
         $this->notaPortfolio = 0.0;
         $this->notaPHP = 0.0;
         $this->notaProyecto = 0.0;
@@ -47,9 +65,19 @@ class Docente extends Persona {
     const ESPECIALIDAD_ECO = "Economía aplicada";
     const ESPECIALIDAD_BBDD = "Base de datos";
 
-    public $especialidad;
+    private $especialidad;
 
-    public function __construct() {}
+    public function __get($propiedad) {
+        return $this->$propiedad;
+    }
+
+    public function __set($propiedad, $valor) {
+        $this->$propiedad = $valor;
+    }
+
+    public function __construct($nombre) {
+        $this->nombre = $nombre;
+    }
 
     public function imprimir() {
         echo "Docente: " . $this->nombre . "<br>";
@@ -67,20 +95,17 @@ class Docente extends Persona {
 }
 
 //Programa
-$alumno1 = new Alumno();
-$alumno1->nombre = "Ana Valle";
-$alumno1->edad = 60;
-$alumno1->documento = "87678675-7";
+$alumno1 = new Alumno("Ana Valle");
+$alumno1->setEdad(60);
+$alumno1->setDocumento("87678675-7");
 $alumno1->imprimir();
 
-$alumno2 = new Alumno();
-$alumno2->nombre = "Juan Gonzalez";
-$alumno2->edad = 28;
-$alumno2->documento = "75626742-7";
+$alumno2 = new Alumno("Juan Gonzalez");
+$alumno2->setEdad(28);
+$alumno2->setDocumento("75626742-7");
 $alumno2->imprimir();
 
-$docente1 = new Docente();
-$docente1->nombre = "Gabriela Paz";
+$docente1 = new Docente("Gabriela Paz");
 $docente1->especialidad = Docente::ESPECIALIDAD_ECO;
 
 $docente1->imprimirEspecialidadesHabilitadas();
